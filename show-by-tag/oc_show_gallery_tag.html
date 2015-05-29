@@ -1,0 +1,17 @@
+{% for child in post.children %}
+<div class="show-gallery">
+  <!--<img src="/assets/loading.gif" alt="loading" class="slider-loading" style:"display:block !important;">-->
+  <p><b>{{child.name}}</b></p>
+ {% if child.has_meta_image? %}
+  <a class="img-head" href="{{ child.url }}" style="background: url({{ child.meta_image_url }}) center no-repeat;background-size:cover;display:block"></a>
+  {% else %}
+  {% for feature in child.features limit:1%}
+  <a class="img-head" href="{{ child.url }}"><img  src="{{ feature.image_url }}" /></a>
+  {% endfor %}
+  {% endif %}
+  <div class="gallery-description">
+  {{child.basic.content}}
+    <a href="{{child.url}}" class="button">See the gallery</a>
+  </div>
+</div>
+{% endfor %}

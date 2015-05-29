@@ -1,0 +1,126 @@
+<style>
+  .header-container{
+    display:none;
+  }
+  .section1{
+    text-align:center;
+  }
+  .wrap-subpage{
+    width:24%;
+    display:inline-block;
+    background:#eee;
+    text-align:center;
+    padding:10px 0;
+  }
+  .section2{
+    position:relative;
+  }
+  .wrap-subpage-content{
+    min-height:50px;
+    background:#ddd;
+    margin:1%;
+    display:block;
+    padding:10px 15px;
+    position:absolute;
+    left:-9999px;
+    top:0;
+    /* display:none;*/
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+  .wrap-subpage-content.first{
+    display:block;
+    position:relative;
+    background:#aaa;
+    left:0;
+  }
+  /*-- show gallery --*/
+  .show-galleries{
+    width:100%;
+    text-align:center;
+  }
+  .show-gallery{
+    background:#aaa;
+    padding:0.7em 0.5em;
+    width:20%;
+    display:inline-block;
+    vertical-align:top;
+    text-align:center;
+  }
+  /*-- show blog style--*/
+  .show-blog{
+    width:90%;
+    margin:auto;
+    text-align:center;
+    background:#aaa;
+    padding: 1em 0;
+  }
+  .show-post{
+    width: 49%;
+    display:inline-block;
+    vertical-align:top;
+    padding:0.7em 0.5em;
+  }
+  iframe.embedly-embed{
+    width:100% !important;
+    max-height: 244.486666666667px !important;
+    margin:auto;
+  }
+</style>
+{% include "breadcrumbs" %}
+
+{% if page.headline.size > 0 %}
+<h2 class="headline">{{ page.headline }}</h2>
+{% endif %}
+
+<div id="content">
+  
+  <div id="intro" class="intro">
+    <div class="text-content">
+      {{ page.basic.content }}
+    </div>
+
+   {% tag "show" with "oc_show_tag" %}<!-- call all the page which hav tag "show"-->
+   
+  </div>
+  
+  {% if page.tags_count > 0 %}
+  <div class="page-tags">
+    {% include "page_tags" with page %}
+  </div>
+  {% endif %}
+  
+  {% if page.is_homepage? == true and site.page_tags contains "homepage" %}
+  {% tag "homepage" with "homepage_widget" %}
+  {% endif %}
+  
+  <div class="like-page">
+    <strong>Do you like this page?</strong>
+    {% include "like_page" %}
+  </div>
+  
+  {% if page.show_stream? %}
+  {% include "page_stream" %}
+  {% endif %}
+  
+</div>
+
+<script>
+  var classes = [
+    {% tag "show" with "oc_tag_slug_script_part" %}
+    'end'
+  ];
+  
+  $('.' + classes.join(',.')).click(function(){
+    var classNames = this.className.split(/\s+/);
+    var cls = $.grep(classNames, function(c, i) {
+      return $.inArray(c, classes) !== -1;
+    })[0];
+    // alert(cls);
+    $(".wrap-subpage-content").removeClass("first");
+    $("#article-" + cls).toggleClass("first");
+  });
+</script>

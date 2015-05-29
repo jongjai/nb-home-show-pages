@@ -1,0 +1,40 @@
+<!--------------------
+section1
+---------------------------->
+<div class="section1">
+  {% for post in tag.most_recent_published_pages %}
+  <div class="wrap-subpage" id="{{post.slug}}">
+    <div class="img-intro" style="background:url({{post.meta_image_url}})no-repeat top left;background-size:cover; width:90%;height:120px; margin:auto;"></div>
+    <h4>{{post.name}}</h4>
+    <b id="#article-{{post.slug}}" class="title-page-btn button {{post.slug}}">See more</b>
+  </div>
+  {% endfor %}
+</div>
+
+<!--------------------
+section2
+---------------------------->
+<div class="section2">
+  {% for post in tag.most_recent_published_pages %}
+  <div class="wrap-subpage-content" id="article-{{post.slug}}">
+    {% if post.type_name == "Calendar" %}
+    <ul class="event-wrap">
+      {% for event in post.calendar.events_upcoming%}
+      <li>{% include "event" %}</li>
+      {% endfor %}
+    </ul>
+    {% elsif post.type_name == "Blog" %}
+    <div class="show-blog">
+      {% include "oc_intro-blog_tag" %}
+    </div>
+    {% elsif post.type_name == "Basic" and post.name contains "Gallery" %}
+    <div class="show-glleries">
+      {% include "oc_show_gallery_tag" %}
+    </div>
+    <a href="{{post.url}}" class="button">{{post.name}}</a>
+    {% else %}
+    {{post.basic.content}}
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
